@@ -50,6 +50,7 @@ namespace WebDownloader
 
         private void btnDownload_Click(object sender, RoutedEventArgs e)
         {
+            
             Downloader.Start(folder, this);
         }
     }

@@ -23,15 +23,15 @@ namespace WebDownloader
         static List<DataModel> PrepData(string folder, MainWindow form)
         {
             List<DataModel> files = new List<DataModel>() {
-                new DataModel("CAD", Paths.paths["CAD"], folder + @"\T-FLEX CAD 17", form.ProgressBarCAD, form.checkBoxCAD),                
-                new DataModel("Examples", Paths.paths["Examples"], folder + @"\Примеры 17",form.ProgressBarExamples, form.checkBoxExamples),
-                new DataModel("Standard", Paths.paths["Standard"], folder + @"\Стандартные элементы 17",form.ProgressBarStandard, form.checkBoxStandard),
-                new DataModel("MTools", Paths.paths["MTools"], folder + @"\Станочные приспособления 17",form.ProgressBarMtools, form.checkBoxMTools),
-                new DataModel("Analysis", Paths.paths["Analysis"], folder + @"\T-FLEX Анализ 17",form.ProgressBarAnalysis, form.checkBoxAnalysis),
-                new DataModel("Dynamics", Paths.paths["Dynamics"], folder + @"\T-FLEX Динамика 17",form.ProgressBarDyna, form.checkBoxDyna),
-                new DataModel("Gears", Paths.paths["Gears"], folder + @"\T-FLEX Зубчатые передачи 17",form.ProgressBarGears, form.checkBoxGears),
-                new DataModel("Electrical", Paths.paths["Electrical"], folder + @"\T-FLEX Электротехника 17",form.ProgressBarElectrical, form.checkBoxElectrical),
-                new DataModel("License", Paths.paths["License"], folder + @"\T-FLEX Лицензирование 17",form.ProgressBarLicense, form.checkBoxLicense)
+                new DataModel("CAD",        Paths.paths["CAD"],        folder, form.ProgressBarCAD,         form.checkBoxCAD.IsChecked??false),                
+                new DataModel("Examples",   Paths.paths["Examples"],   folder, form.ProgressBarExamples,    form.checkBoxExamples.IsChecked??false),
+                new DataModel("Standard",   Paths.paths["Standard"],   folder, form.ProgressBarStandard,    form.checkBoxStandard.IsChecked??false),
+                new DataModel("MTools",     Paths.paths["MTools"],     folder, form.ProgressBarMtools,      form.checkBoxMTools.IsChecked ?? false),
+                new DataModel("Analysis",   Paths.paths["Analysis"],   folder, form.ProgressBarAnalysis,    form.checkBoxAnalysis.IsChecked ?? false),
+                new DataModel("Dynamics",   Paths.paths["Dynamics"],   folder, form.ProgressBarDyna,        form.checkBoxDyna.IsChecked ?? false),
+                new DataModel("Gears",      Paths.paths["Gears"],      folder, form.ProgressBarGears,       form.checkBoxGears.IsChecked ?? false),
+                new DataModel("Electrical", Paths.paths["Electrical"], folder, form.ProgressBarElectrical,  form.checkBoxElectrical.IsChecked ?? false),
+                new DataModel("License",    Paths.paths["License"],    folder, form.ProgressBarLicense,     form.checkBoxLicense.IsChecked ?? false)
                };
             return files;
         }

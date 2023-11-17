@@ -9,17 +9,18 @@ namespace WebDownloader
 {
     internal static class Paths
     {
+        public static string url = "https://www.tflex.ru/downloads/";
         public static Dictionary<string, string> paths = new Dictionary<string, string>()
         {
-            { "CAD",   @"https://www.tflex.ru/downloads/T-FLEX%20CAD%2017.msi" },
-            { "Examples", @"https://www.tflex.ru/downloads/Examples%2017.zip" },
-            { "Standard", @"https://www.tflex.ru/downloads/Standard%20parts%2017.zip" },
-            { "MTools",  @"https://www.tflex.ru/downloads/Machine%20tools%2017.zip"},
-            { "Analysis",  @"https://www.tflex.ru/downloads/T-FLEX%20Analysis%2017.zip"},
-            { "Dynamics",  @"https://www.tflex.ru/downloads/T-FLEX%20Dynamics%2017.zip"},
-            { "Gears",  @"https://www.tflex.ru/downloads/T-FLEX%20Gears%2017.zip"},
-            { "Electrical",  @"https://www.tflex.ru/downloads/T-FLEX%20Electrical%2017.zip"},
-            { "License",  @"https://www.tflex.ru/downloads/T-FLEX%2017%20Licensing.zip"}
+            { "CAD",   @"T-FLEX%20CAD%2017.msi" },
+            { "Examples", @"Examples%2017.zip" },
+            { "Standard", @"Standard%20parts%2017.zip" },
+            { "MTools",  @"Machine%20tools%2017.zip"},
+            { "Analysis",  @"T-FLEX%20Analysis%2017.zip"},
+            { "Dynamics",  @"T-FLEX%20Dynamics%2017.zip"},
+            { "Gears",  @"T-FLEX%20Gears%2017.zip"},
+            { "Electrical",  @"T-FLEX%20Electrical%2017.zip"},
+            { "License",  @"T-FLEX%2017%20Licensing.zip"}
         };
     }
 }

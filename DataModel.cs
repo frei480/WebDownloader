@@ -28,22 +28,26 @@ namespace WebDownloader
         }
         public void DwnldFile()
         {
-            
-            
                 if (checkBox)
                 {
-                    WebClient myWebClient = new WebClient();
+                    using (WebClient myWebClient = new WebClient())
+                    {
                     myWebClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                    myWebClient.DownloadFile(Paths.url + this.filename, this.folder+"\\"+this.filename);
-
+                    myWebClient.DownloadFileAsync(new Uri(Paths.url + this.filename), this.folder + "\\" + this.filename.Replace("%20", " "));
+                    }
                 }
-            
-                    
-             
-        }
+            }
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            progressBar.Value = e.ProgressPercentage;
+
+            progressBar.Dispatcher.BeginInvoke(
+            System.Windows.Threading.DispatcherPriority.Normal,
+            new DispatcherOperationCallback(delegate
+                  {
+                      progressBar.Value = e.ProgressPercentage;
+                      return null;
+                  }), null);
+            
         }
 
     }

@@ -28,6 +28,7 @@ namespace WebDownloader
         public MainWindow()
         {
             InitializeComponent();
+            
         }
 
         private void btnFolder_Click(object sender, RoutedEventArgs e)
@@ -49,7 +50,7 @@ namespace WebDownloader
 
         private void btnDownload_Click(object sender, RoutedEventArgs e)
         {
-            Downloader.Start(folder);
+            Downloader.Start(folder, this);
         }
     }
 }

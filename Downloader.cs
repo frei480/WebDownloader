@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Printing;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebDownloader
@@ -11,19 +6,15 @@ namespace WebDownloader
     public static class Downloader
     {
 
-        public  static void Start(string folder, MainWindow form)
+        public static void Start(string folder, MainWindow form)
         {
-            List<DataModel> files=PrepData(folder, form);
-
-            Parallel.ForEach<DataModel> (files, (file) =>
-            {
-                file.DwnldFile();
-            });
+            List<DataModel> files = PrepData(folder, form);
+            Parallel.ForEach<DataModel>(files, (file) => file.DwnldFile());
         }
         static List<DataModel> PrepData(string folder, MainWindow form)
         {
             List<DataModel> files = new List<DataModel>() {
-                new DataModel("CAD",        Paths.paths["CAD"],        folder, form.ProgressBarCAD,         form.checkBoxCAD.IsChecked??false),                
+                new DataModel("CAD",        Paths.paths["CAD"],        folder, form.ProgressBarCAD,         form.checkBoxCAD.IsChecked??false),
                 new DataModel("Examples",   Paths.paths["Examples"],   folder, form.ProgressBarExamples,    form.checkBoxExamples.IsChecked??false),
                 new DataModel("Standard",   Paths.paths["Standard"],   folder, form.ProgressBarStandard,    form.checkBoxStandard.IsChecked??false),
                 new DataModel("MTools",     Paths.paths["MTools"],     folder, form.ProgressBarMtools,      form.checkBoxMTools.IsChecked ?? false),
@@ -35,7 +26,7 @@ namespace WebDownloader
                };
             return files;
         }
-        
+
 
     }
 }

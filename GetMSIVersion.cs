@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Forms;
+
 
 namespace WebDownloader
 {
@@ -22,5 +25,8 @@ namespace WebDownloader
             view.Execute();
             return view.Fetch().StringData(1);
         }
+
+            
+        
     }
 }

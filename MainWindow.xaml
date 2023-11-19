@@ -8,15 +8,15 @@
         Title="MainWindow" Height="310" Width="621" Loaded="Window_Loaded" Padding="0,0,6,0" WindowStartupLocation="CenterScreen">
     <Grid>
         <Button x:Name="btnDownload" Content="Скачать" HorizontalAlignment="Left" Margin="37,21,0,0" VerticalAlignment="Top" Width="81" Click="btnDownload_Click"/>
-        <CheckBox x:Name="checkBoxCAD" Content="T-Flex CAD" HorizontalAlignment="Left" Margin="37,57,0,0" VerticalAlignment="Top" IsChecked="True" Height="16" FontSize="14" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxStandard" Content="Стандартные элементы 17" HorizontalAlignment="Left" Margin="37,78,0,0" VerticalAlignment="Top"  IsChecked="True" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxMTools" Content="Станочные приспособления 17" HorizontalAlignment="Left" Margin="37,99,0,0" VerticalAlignment="Top" IsChecked="True" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxExamples" Content="Примеры 17" HorizontalAlignment="Left" Margin="37,120,0,0" VerticalAlignment="Top"  IsChecked="True" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxAnalysis" Content="T-FLEX Анализ 17" HorizontalAlignment="Left" Margin="37,141,0,0" VerticalAlignment="Top"  IsChecked="True" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxGears" Content="T-FLEX Зубчатые передачи 17" HorizontalAlignment="Left" Margin="37,183,0,0" VerticalAlignment="Top"  IsChecked="True" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxDyna" Content="T-FLEX Динамика 17" HorizontalAlignment="Left" Margin="37,162,0,0" VerticalAlignment="Top"  IsChecked="True" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxLicense" Content="T-FLEX Лицензирование 17" HorizontalAlignment="Left" Margin="37,204,0,0" VerticalAlignment="Top"  IsChecked="True" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxElectrical" Content="T-FLEX Электротехника 17" HorizontalAlignment="Left" Margin="37,225,0,0" VerticalAlignment="Top"  IsChecked="True" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBoxCAD" Content="T-Flex CAD" HorizontalAlignment="Left" Margin="37,57,0,0" VerticalAlignment="Top" IsChecked="False" Height="16" FontSize="14" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBoxStandard" Content="Стандартные элементы 17" HorizontalAlignment="Left" Margin="37,78,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBoxMTools" Content="Станочные приспособления 17" HorizontalAlignment="Left" Margin="37,99,0,0" VerticalAlignment="Top" IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBoxExamples" Content="Примеры 17" HorizontalAlignment="Left" Margin="37,120,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBoxAnalysis" Content="T-FLEX Анализ 17" HorizontalAlignment="Left" Margin="37,141,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBoxGears" Content="T-FLEX Зубчатые передачи 17" HorizontalAlignment="Left" Margin="37,183,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBoxDyna" Content="T-FLEX Динамика 17" HorizontalAlignment="Left" Margin="37,162,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBoxLicense" Content="T-FLEX Лицензирование 17" HorizontalAlignment="Left" Margin="37,204,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBoxElectrical" Content="T-FLEX Электротехника 17" HorizontalAlignment="Left" Margin="37,225,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
         <ProgressBar x:Name="ProgressBarCAD" HorizontalAlignment="Left" Height="16" Margin="268,59,0,0" VerticalAlignment="Top" Width="159"/>
         <ProgressBar x:Name="ProgressBarStandard" HorizontalAlignment="Left" Height="16" Margin="268,80,0,0" VerticalAlignment="Top" Width="159"/>
         <ProgressBar x:Name="ProgressBarMtools" HorizontalAlignment="Left" Height="16" Margin="268,101,0,0" VerticalAlignment="Top" Width="159"/>

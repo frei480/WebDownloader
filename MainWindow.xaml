@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WebDownloader"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="621">
+        Title="MainWindow" Height="310" Width="621" Loaded="Window_Loaded">
     <Grid>
         <Button x:Name="btnDownload" Content="Скачать" HorizontalAlignment="Left" Margin="37,21,0,0" VerticalAlignment="Top" Width="141" Click="btnDownload_Click"/>
         <CheckBox x:Name="checkBoxCAD" Content="T-Flex CAD" HorizontalAlignment="Left" Margin="37,57,0,0" VerticalAlignment="Top" IsChecked="True"/>
@@ -28,6 +28,7 @@
         <ProgressBar x:Name="ProgressBarElectrical" HorizontalAlignment="Left" Height="10" Margin="268,222,0,0" VerticalAlignment="Top" Width="159"/>
         <TextBox x:Name="textBoxFolder" HorizontalAlignment="Left" Margin="268,21,0,0" TextWrapping="Wrap" Text="Папка" VerticalAlignment="Top" Width="252" Height="20"/>
         <Button x:Name="btnFolder" Content="Папка" HorizontalAlignment="Left" Margin="217,21,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.48,0.202" Click="btnFolder_Click"/>
+        <Label x:Name="labelVersion" Content="Версия на сайте:" HorizontalAlignment="Left" Margin="37,248,0,0" VerticalAlignment="Top" Width="234"/>
 
     </Grid>
 </Window>

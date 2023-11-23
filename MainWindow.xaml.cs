@@ -18,13 +18,13 @@ namespace WebDownloader
     /// </summary>
     public partial class MainWindow : Window
     {
-       public string folder = "";
+        public string folder = "";
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private  async void btnFolder_Click(object sender, RoutedEventArgs e)
+        private async void btnFolder_Click(object sender, RoutedEventArgs e)
         {
             WinForm.FolderBrowserDialog dialog = new WinForm.FolderBrowserDialog();
             dialog.InitialDirectory = "D:\\Downloads";
@@ -35,7 +35,7 @@ namespace WebDownloader
                 textBoxFolder.Text = dialog.SelectedPath;
                 folder = dialog.SelectedPath;
             }
-             await GetVersionfromFiles();
+            await GetVersionfromFiles();
             List<Label> labels = new List<Label>()
             {
                 labelCAD,
@@ -48,9 +48,9 @@ namespace WebDownloader
                 labelLicense,
                 labelElectrical
             };
-            foreach (Label label in labels) 
+            foreach (Label label in labels)
             {
-                if (labelVersion.Content.ToString().Contains(label.Content.ToString()))    label.Foreground = Brushes.Green;
+                if (labelVersion.Content.ToString().Contains(label.Content.ToString())) label.Foreground = Brushes.Green;
                 else label.Foreground = Brushes.Red;
             }
 
@@ -65,7 +65,7 @@ namespace WebDownloader
         {
             //Версия на сайте:
             await GetVersionfromWeb();
-          
+            
         }
         private async Task GetVersionfromFiles()
         {
@@ -78,17 +78,18 @@ namespace WebDownloader
             labelDyna.Content = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Динамика 17\T-FLEX Динамика 17.msi"));
             labelGears.Content = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Зубчатые передачи 17\T-FLEX Зубчатые передачи 17.msi"));
             labelLicense.Content = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Лицензирование 17\T-FLEX Лицензирование 17.msi"));
-            labelElectrical.Content = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi"));  
+            labelElectrical.Content = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi"));
         }
         private async Task GetVersionfromWeb()
         {
             // Xpatch //*[@id="page_maincontainer"]/div[2]/div[1]/div[1]/div[1]/text()
             // Full Xpatch /html/body/div[7]/div[2]/div[1]/div[1]/div[1]/text()
             string url = "https://www.tflex.ru/downloads/";
-            string getVersion = await Task.Run(() => { 
-            var web = new HtmlAgilityPack.HtmlWeb();
-            HtmlDocument doc =  web.Load(url);
-            return doc.DocumentNode.SelectNodes("//*[@id=\"page_maincontainer\"]/div[2]/div[1]/div[1]/div[1]")[0].InnerText;            
+            string getVersion = await Task.Run(() =>
+            {
+                var web = new HtmlAgilityPack.HtmlWeb();
+                HtmlDocument doc = web.Load(url);
+                return doc.DocumentNode.SelectNodes("//*[@id=\"page_maincontainer\"]/div[2]/div[1]/div[1]/div[1]")[0].InnerText;
             });
 
             string pattern = @"[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+";
@@ -96,6 +97,11 @@ namespace WebDownloader
             RegexOptions options = RegexOptions.Multiline;
             version = Regex.Match(getVersion, pattern, options).Value;
             labelVersion.Content = "Версия на сайте: " + version;
+        }
+
+        private void checkBoxElectrical_Unchecked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

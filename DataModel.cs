@@ -16,10 +16,11 @@ namespace WebDownloader
         public string Filename { get; set; } = "";
         public string Folder { get; set; } = "";
         public ProgressBar progressBar { get; set; }
-        
-        public CheckBox checkBox { get; set; }       
+        public CheckBox checkBox { get; set; }
+        public Label label { get; set; }
+
         public bool checkBoxCheked { get; }
-        public DataModel(string _name, string _filename, string _folder, ProgressBar _progressBar, CheckBox _checkBox)
+        public DataModel(string _name, string _filename, string _folder, ProgressBar _progressBar, CheckBox _checkBox, Label _label)
         {
             Name = _name;
             Filename = _filename;
@@ -27,9 +28,14 @@ namespace WebDownloader
             progressBar = _progressBar;
             checkBox = _checkBox;
             checkBoxCheked = _checkBox.Dispatcher.Invoke(() => _checkBox.IsChecked ?? false);
+            label = _label;
         }
         public void DwnldFile()
         {
+            
+            if(!Directory.Exists(this.Folder)) Directory.CreateDirectory(this.Folder);
+
+            label.Dispatcher.BeginInvoke(()=> label.Content="Скачиваю");
             using (WebClient myWebClient = new WebClient())
             {
                 myWebClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
@@ -40,20 +46,26 @@ namespace WebDownloader
 
         public void UnZip(object sender, AsyncCompletedEventArgs e)
         {
+          
             string zipPath = this.Folder + "\\" + this.Filename.Replace("%20", " ");
             if (!zipPath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)) return;
+            label.Dispatcher.BeginInvoke(() => label.Content = "Распаковка...");
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             if (File.Exists(zipPath))
             {
                 using (FileStream zipToOpen = new FileStream(zipPath, FileMode.Open))
                 {
-                    
+                   
                     using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read, false, Encoding.GetEncoding(866)))
                     {
+                       
                         archive.ExtractToDirectory(this.Folder, true);
                     }
                 }
+            
             }
+            label.Dispatcher.BeginInvoke(() => label.Content = "Готово!");
+
         }
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {

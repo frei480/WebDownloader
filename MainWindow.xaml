@@ -5,39 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WebDownloader"
         mc:Ignorable="d"
-        Title="MainWindow" Height="310" Width="621" Loaded="Window_Loaded" Padding="0,0,6,0" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Button x:Name="btnDownload" Content="Скачать" HorizontalAlignment="Left" Margin="37,21,0,0" VerticalAlignment="Top" Width="81" Click="btnDownload_Click"/>
-        <CheckBox x:Name="checkBoxCAD" Content="T-Flex CAD" HorizontalAlignment="Left" Margin="37,57,0,0" VerticalAlignment="Top" IsChecked="False" Height="16" FontSize="14" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxStandard" Content="Стандартные элементы 17" HorizontalAlignment="Left" Margin="37,78,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxMTools" Content="Станочные приспособления 17" HorizontalAlignment="Left" Margin="37,99,0,0" VerticalAlignment="Top" IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxExamples" Content="Примеры 17" HorizontalAlignment="Left" Margin="37,120,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxAnalysis" Content="T-FLEX Анализ 17" HorizontalAlignment="Left" Margin="37,141,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxGears" Content="T-FLEX Зубчатые передачи 17" HorizontalAlignment="Left" Margin="37,183,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxDyna" Content="T-FLEX Динамика 17" HorizontalAlignment="Left" Margin="37,162,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxLicense" Content="T-FLEX Лицензирование 17" HorizontalAlignment="Left" Margin="37,204,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="checkBoxElectrical" Content="T-FLEX Электротехника 17" HorizontalAlignment="Left" Margin="37,225,0,0" VerticalAlignment="Top"  IsChecked="False" FontSize="14" Height="16" Grid.ColumnSpan="2"/>
-        <ProgressBar x:Name="ProgressBarCAD" HorizontalAlignment="Left" Height="16" Margin="268,59,0,0" VerticalAlignment="Top" Width="159"/>
-        <ProgressBar x:Name="ProgressBarStandard" HorizontalAlignment="Left" Height="16" Margin="268,80,0,0" VerticalAlignment="Top" Width="159"/>
-        <ProgressBar x:Name="ProgressBarMtools" HorizontalAlignment="Left" Height="16" Margin="268,101,0,0" VerticalAlignment="Top" Width="159"/>
-        <ProgressBar x:Name="ProgressBarExamples" HorizontalAlignment="Left" Height="16" Margin="268,122,0,0" VerticalAlignment="Top" Width="159"/>
-        <ProgressBar x:Name="ProgressBarAnalysis" HorizontalAlignment="Left" Height="16" Margin="268,143,0,0" VerticalAlignment="Top" Width="159"/>
-        <ProgressBar x:Name="ProgressBarDyna" HorizontalAlignment="Left" Height="16" Margin="268,164,0,0" VerticalAlignment="Top" Width="159"/>
-        <ProgressBar x:Name="ProgressBarGears" HorizontalAlignment="Left" Height="16" Margin="268,185,0,0" VerticalAlignment="Top" Width="159"/>
-        <ProgressBar x:Name="ProgressBarLicense" HorizontalAlignment="Left" Height="16" Margin="268,206,0,0" VerticalAlignment="Top" Width="159"/>
-        <ProgressBar x:Name="ProgressBarElectrical" HorizontalAlignment="Left" Height="16" Margin="268,227,0,0" VerticalAlignment="Top" Width="159"/>
-        <TextBox x:Name="textBoxFolder" HorizontalAlignment="Left" Margin="174,21,0,0" TextWrapping="Wrap" Text="Папка" VerticalAlignment="Top" Width="252" Height="20" Grid.Column="1"/>
-        <Button x:Name="btnFolder" Content="Папка" HorizontalAlignment="Left" Margin="123,21,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.48,0.202" Click="btnFolder_Click" Grid.Column="1"/>
-        <Label x:Name="labelVersion" Content="Версия на сайте:" HorizontalAlignment="Left" Margin="37,248,0,0" VerticalAlignment="Top" Width="234" Grid.ColumnSpan="2" Padding="0,0,4,0" FontSize="14"/>
-        <Label x:Name="labelCAD" Content=" " HorizontalAlignment="Left" Margin="435,57,0,0" VerticalAlignment="Top" Width="145" Height="16" Grid.ColumnSpan="1" Padding="0" FontSize="14"/>
-        <Label x:Name="labelStandard" Content=" " HorizontalAlignment="Left" Margin="435,78,0,0" VerticalAlignment="Top" Width="145" Height="16" Grid.ColumnSpan="1" Padding="0" FontSize="14"/>
-        <Label x:Name="labelMTools" Content=" " HorizontalAlignment="Left" Margin="435,99,0,0" VerticalAlignment="Top" Width="145" Height="16" Grid.ColumnSpan="1" Padding="0" FontSize="14"/>
-        <Label x:Name="labelExamples" Content=" " HorizontalAlignment="Left" Margin="435,120,0,0" VerticalAlignment="Top" Width="145" Height="16" Grid.ColumnSpan="1" Padding="0" FontSize="14"/>
-        <Label x:Name="labelAnalysis" Content=" " HorizontalAlignment="Left" Margin="435,141,0,0" VerticalAlignment="Top" Width="145" Height="16" Grid.ColumnSpan="1" Padding="0" FontSize="14"/>
-        <Label x:Name="labelDyna" Content=" " HorizontalAlignment="Left" Margin="435,162,0,0" VerticalAlignment="Top" Width="145" Height="16" Grid.ColumnSpan="1" Padding="0" FontSize="14"/>
-        <Label x:Name="labelGears" Content=" " HorizontalAlignment="Left" Margin="435,183,0,0" VerticalAlignment="Top" Width="145" Height="16" Grid.ColumnSpan="1" Padding="0" FontSize="14"/>
-        <Label x:Name="labelLicense" Content=" " HorizontalAlignment="Left" Margin="435,204,0,0" VerticalAlignment="Top" Width="145" Height="16" Grid.ColumnSpan="1" Padding="0" FontSize="14"/>
-        <Label x:Name="labelElectrical" Content=" " HorizontalAlignment="Left" Margin="435,225,0,0" VerticalAlignment="Top" Width="145" Height="16" Grid.ColumnSpan="1" Padding="0" FontSize="14"/>
+        FontSize="16"
+        Title="Web downloader" Height="350" Width="652" Loaded="Window_Loaded" Padding="0,0,6,0" WindowStartupLocation="CenterScreen">
 
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Column="1" Grid.Row="1" x:Name="btnDownload" Content="Скачать" HorizontalAlignment="Left" Width="81" Click="btnDownload_Click" FontSize="16"/>
+        <Grid Grid.Column="2" Grid.Row="1"  Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="btnFolder" Content="Папка"  Click="btnFolder_Click"  Width="50" HorizontalAlignment="Left" />
+            <TextBox Grid.Column="1" x:Name="textBoxFolder"  TextWrapping="Wrap" Text="Папка"   />
+        </Grid>
+
+        <!--<StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="2">-->
+        <CheckBox Grid.Column="1" Grid.Row="2" x:Name="checkBoxCAD" Content="T-Flex CAD" Margin="2" IsChecked="False"  />
+        <CheckBox Grid.Column="1" Grid.Row="3" x:Name="checkBoxStandard" Content="Стандартные элементы 17" Margin="2" IsChecked="False"  />
+        <CheckBox Grid.Column="1" Grid.Row="4" x:Name="checkBoxMTools" Content="Станочные приспособления 17" Margin="2"  IsChecked="False"   />
+        <CheckBox Grid.Column="1" Grid.Row="5" x:Name="checkBoxExamples" Content="Примеры 17" Margin="2"   IsChecked="False"  />
+        <CheckBox Grid.Column="1" Grid.Row="6" x:Name="checkBoxAnalysis" Content="T-FLEX Анализ 17" Margin="2"   IsChecked="False"  />
+        <CheckBox Grid.Column="1" Grid.Row="7" x:Name="checkBoxGears" Content="T-FLEX Зубчатые передачи 17" Margin="2" VerticalAlignment="Top"  IsChecked="False" />
+        <CheckBox Grid.Column="1" Grid.Row="8" x:Name="checkBoxDyna" Content="T-FLEX Динамика 17" Margin="2" VerticalAlignment="Top"  IsChecked="False"/>
+        <CheckBox Grid.Column="1" Grid.Row="9" x:Name="checkBoxLicense" Content="T-FLEX Лицензирование 17" Margin="2" VerticalAlignment="Top"  IsChecked="False" />
+        <CheckBox Grid.Column="1" Grid.Row="10" x:Name="checkBoxElectrical" Content="T-FLEX Электротехника 17" Margin="2" VerticalAlignment="Top"  IsChecked="False" Grid.ColumnSpan="2" Unchecked="checkBoxElectrical_Unchecked"/>
+        <!--</StackPanel>-->
+        <!--<StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="2">-->
+        <ProgressBar Grid.Column="2" Grid.Row="2" x:Name="ProgressBarCAD" Margin="2" />
+        <ProgressBar Grid.Column="2" Grid.Row="3" x:Name="ProgressBarStandard"  Margin="2" />
+        <ProgressBar Grid.Column="2" Grid.Row="4" x:Name="ProgressBarMtools"  Margin="2" />
+        <ProgressBar Grid.Column="2" Grid.Row="5" x:Name="ProgressBarExamples"  Margin="2" />
+        <ProgressBar Grid.Column="2" Grid.Row="6" x:Name="ProgressBarAnalysis"  Margin="2" />
+        <ProgressBar Grid.Column="2" Grid.Row="7" x:Name="ProgressBarDyna"  Margin="2" />
+        <ProgressBar Grid.Column="2" Grid.Row="8" x:Name="ProgressBarGears"  Margin="2" />
+        <ProgressBar Grid.Column="2" Grid.Row="9" x:Name="ProgressBarLicense"  Margin="2" />
+        <ProgressBar Grid.Column="2" Grid.Row="10" x:Name="ProgressBarElectrical"  Margin="2" />
+        <!--</StackPanel>-->
+        <!--<StackPanel Orientation="Vertical" Grid.Column="3" Grid.Row="2">-->
+        <Label Grid.Column="3" Grid.Row="2" x:Name="labelCAD" Content=" " Margin="2" VerticalAlignment="Top" Padding="0,0,0,0" />
+        <Label Grid.Column="3" Grid.Row="3" x:Name="labelStandard" Content=" " Margin="2" Padding="0,0,0,0"/>
+        <Label Grid.Column="3" Grid.Row="4" x:Name="labelMTools" Content=" " Margin="2" Padding="0,0,0,0" />
+        <Label Grid.Column="3" Grid.Row="5" x:Name="labelExamples" Content=" " Margin="2" Padding="0,0,0,0" />
+        <Label Grid.Column="3" Grid.Row="6" x:Name="labelAnalysis" Content=" " Margin="2" Padding="0,0,0,0" />
+        <Label Grid.Column="3" Grid.Row="7" x:Name="labelDyna" Content=" " Margin="2" Padding="0,0,0,0"/>
+        <Label Grid.Column="3" Grid.Row="8" x:Name="labelGears" Content=" " Margin="2" Padding="0,0,0,0"/>
+        <Label Grid.Column="3" Grid.Row="9" x:Name="labelLicense" Content=" " Margin="2" Padding="0,0,0,0"/>
+        <Label Grid.Column="3" Grid.Row="10" x:Name="labelElectrical" Content=" " Margin="2" Padding="0,0,0,0"/>
+        <!--</StackPanel>-->
+        <Label Grid.Column="1" Grid.Row="11" x:Name="labelVersion" Content="Версия на сайте:" Margin="2" VerticalAlignment="Top" Padding="0,0,0,0"    />
     </Grid>
 </Window>

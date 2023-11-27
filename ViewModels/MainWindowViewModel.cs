@@ -13,6 +13,7 @@ using WinForm = System.Windows.Forms;
 using WebDownloader.Commands;
 using WebDownloader.ViewModels.Base;
 using System.Windows.Controls;
+using System.Windows.Forms.VisualStyles;
 
 namespace WebDownloader.ViewModels
 {
@@ -59,6 +60,8 @@ namespace WebDownloader.ViewModels
             set => Set(ref _labelCAD, value);
         }
         #endregion
+        public ObjectVM CAD { get; set; }
+
         #region версия Standard Parts 
         private string _labelStandard = "";
         public string labelStandard
@@ -68,6 +71,7 @@ namespace WebDownloader.ViewModels
             set => Set(ref _labelStandard, value);
         }
         #endregion
+
         #region версия Machine Tools
         private string _labelMTools = "";
         public string labelMTools
@@ -77,6 +81,7 @@ namespace WebDownloader.ViewModels
             set => Set(ref _labelMTools, value);
         }
         #endregion
+
         #region версия Examples
         private string _labelExamples = "";
         public string labelExamples
@@ -140,13 +145,32 @@ namespace WebDownloader.ViewModels
             WinForm.FolderBrowserDialog dialog = new WinForm.FolderBrowserDialog();
             dialog.InitialDirectory = "D:\\Downloads";
             WinForm.DialogResult result = dialog.ShowDialog();
-
+            
             if (result == WinForm.DialogResult.OK)
             {
                 Folder = dialog.SelectedPath;
                 OnPropertyChanged(nameof(Folder));
             }
+            CAD.labelText = "test";
             await GetVersionfromFiles();
+           /*
+            List<Label> labels = new List<Label>()
+            {
+                labelCAD,
+                labelStandard,
+                labelMTools,
+                labelExamples,
+                labelAnalysis,
+                labelDyna,
+                labelGears,
+                labelLicense,
+                labelElectrical
+            };
+            foreach (Label label in labels)
+            {
+                if (labelVersion.Content.ToString().Contains(label.Content.ToString())) label.Foreground = Brushes.Green;
+                else label.Foreground = Brushes.Red;
+            } */
         }
         private bool CanSetFolderCommandExecute(object p) => true;
         
@@ -158,7 +182,9 @@ namespace WebDownloader.ViewModels
             SetFolderCommand = new LambdaCommand(OnSetFolderCommandExecuted, CanSetFolderCommandExecute);
 
             #endregion
-            Task.Run(() =>  GetVersionfromWeb().Wait());
+            Task.Run(() =>  GetVersionfromWeb().Wait());          
+      
+            
         }
         private async Task GetVersionfromWeb()
         {
@@ -182,8 +208,8 @@ namespace WebDownloader.ViewModels
         private async Task GetVersionfromFiles()
         {
             string path = Folder;
-            labelCAD= await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX CAD 17\T-FLEX CAD 17.msi"));
-            OnPropertyChanged(nameof(labelCAD));
+            CAD.labelText = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX CAD 17\T-FLEX CAD 17.msi"));
+            OnPropertyChanged(nameof(CAD.labelText));
             labelStandard = await Task.Run(() => GetMSIVersion.Get(path + @"\Стандартные элементы 17\Стандартные элементы 17.msi"));
             OnPropertyChanged(nameof(labelStandard));
             labelMTools = await Task.Run(() => GetMSIVersion.Get(path + @"\Станочные приспособления 17\Станочные приспособления 17.msi"));
@@ -200,6 +226,22 @@ namespace WebDownloader.ViewModels
             OnPropertyChanged(nameof(labelLicense));
             labelElectrical = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi"));
             OnPropertyChanged(nameof(labelElectrical));
+        }39
+    }
+    internal class ObjectVM : ViewModel
+    {
+        #region версия  
+        private string _labelText = "";
+        public string labelText
+        {
+            get => _labelText;
+
+            set => Set(ref _labelText, value);
+        }
+        #endregion
+        public ObjectVM()
+        {            
+            this.labelText= string.Empty;
         }
     }
 }

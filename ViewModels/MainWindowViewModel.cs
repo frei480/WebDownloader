@@ -180,8 +180,8 @@ namespace WebDownloader.ViewModels
         {
             #region Команды 
             SetFolderCommand = new LambdaCommand(OnSetFolderCommandExecuted, CanSetFolderCommandExecute);
-
             #endregion
+            ObjectVM CAD = new ObjectVM();
             Task.Run(() =>  GetVersionfromWeb().Wait());          
       
             
@@ -226,7 +226,7 @@ namespace WebDownloader.ViewModels
             OnPropertyChanged(nameof(labelLicense));
             labelElectrical = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi"));
             OnPropertyChanged(nameof(labelElectrical));
-        }39
+        }
     }
     internal class ObjectVM : ViewModel
     {

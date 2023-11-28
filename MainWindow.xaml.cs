@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using WinForm = System.Windows.Forms;
 using Label = System.Windows.Controls.Label;
-
+using WebDownloader.ViewModels;
 
 namespace WebDownloader
 {
@@ -19,8 +19,9 @@ namespace WebDownloader
     public partial class MainWindow : Window
     {
         public string folder = "";
+        
         public MainWindow()
-        {
+        {            
             InitializeComponent();
         }
 
@@ -60,13 +61,6 @@ namespace WebDownloader
 
             Downloader.Start(this);
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-     
-            
-        }
-
 
 
     }

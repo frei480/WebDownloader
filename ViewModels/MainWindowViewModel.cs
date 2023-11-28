@@ -13,20 +13,28 @@ using WinForm = System.Windows.Forms;
 using WebDownloader.Commands;
 using WebDownloader.ViewModels.Base;
 using System.Windows.Controls;
-using System.Windows.Forms.VisualStyles;
+
 using System.Windows.Forms;
 using System.ComponentModel;
-using static System.Net.Mime.MediaTypeNames;
+
 using System.Windows.Media;
 using System.Drawing;
 using System.Diagnostics;
 using Brushes = System.Windows.Media.Brushes;
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Data;
 
 namespace WebDownloader.ViewModels
 {
     internal class MainWindowViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        
         #region Заголовок окна
         private string _Title = "Web Downloader";
         /// <summary> Заголовок окна </summary>
@@ -34,7 +42,7 @@ namespace WebDownloader.ViewModels
         {
             get => _Title;
             set { _Title = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(Title)));
+                OnPropertyChanged();
             }
         } 
         #endregion
@@ -47,7 +55,7 @@ namespace WebDownloader.ViewModels
             get => _WebVersion;
             set { 
                 _WebVersion = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(WebVersion)));
+                OnPropertyChanged();
             }
         }
         #endregion
@@ -61,75 +69,68 @@ namespace WebDownloader.ViewModels
             set
             {
                 _Folder = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(Folder)));
+                OnPropertyChanged();
             }
         }
         #endregion
-
-        #region версия CAD 
-        public ObjectVM CAD { get; set; } = new ObjectVM();        
+        #region Коллекция параметров 
+        /// <summary> Коллекция параметров </summary>
+        public ObservableCollection<ObjectVM> objectVMs { get; set; }
         #endregion
-
-        #region версия Standard Parts 
-        public ObjectVM Standard { get; set; } = new ObjectVM();
-        #endregion
-        #region версия Machine Tools
-        public ObjectVM MTools { get; set; } = new ObjectVM();               
-        #endregion
-        #region версия Examples
-        private string _labelExamples = "";
-        public ObjectVM Examples { get; set; } = new ObjectVM();
-        #endregion
-        #region версия Analysis
-        public ObjectVM Analysis { get; set; } = new ObjectVM();
-        #endregion
-        #region версия Dynamics
-        public ObjectVM Dynamics { get; set; } = new ObjectVM();
-        #endregion
-        #region версия Gears
-        public ObjectVM Gears { get; set; } = new ObjectVM();
-        #endregion
-        #region версия License
-        public ObjectVM License { get; set; } = new ObjectVM();
-        #endregion
-        #region версия Electrical
-        public ObjectVM Electrical { get; set; } = new ObjectVM();
-        #endregion
-
         #region Команды 
         #region Команда Назначить папку 
         //public ICommand PressCommand { get { return new DelegateCommand(Press); } }
         public ICommand SetFolderCommand { get { return new DelegateCommand(OnSetFolderCommand);} }        
-        private void OnSetFolderCommand(object p)
+        private void OnSetFolderCommand(object obj)
         {
             WinForm.FolderBrowserDialog dialog = new WinForm.FolderBrowserDialog();
             dialog.InitialDirectory = "D:\\Downloads";
             WinForm.DialogResult result = dialog.ShowDialog();
-            //CAD.RelativePath = @"\T-FLEX CAD 17\T-FLEX CAD 17.msi";
             if (result == WinForm.DialogResult.OK)
             {
                 Folder = dialog.SelectedPath;                
             }
-            
-            GetVersionfromFiles();
-
-           var labels=this.GetType().GetProperties().Where(x=> x.PropertyType.Name=="ObjectVM");
-
-            foreach (var label in labels)
+            foreach (ObjectVM p in objectVMs)
             {
-                //if (WebVersion.Contains(label.)) label.Foreground = Brushes.Green;
-                //else label.Foreground = Brushes.Red;
-            } 
+                p.FileVersion = GetMSIVersion.Get(Folder + p.RelativePath);
+                if (WebVersion.Contains(p.FileVersion)) p.myColor = Brushes.Green;
+                else p.myColor = Brushes.Red;
+            }
+            //GetVersionfromFiles();
+            //Коллекция не изменилась-нужно обновить
+            CollectionViewSource.GetDefaultView(objectVMs).Refresh();
         }
+        #endregion
+        #region Команда Скачать
+        
         #endregion
         #endregion
         public MainWindowViewModel()
         {
             #region Команды 
             #endregion           
-       
-            Task.Run(() =>  GetVersionfromWeb().Wait());          
+            //Загружаем значение актуальной сборки с сайта
+            Task.Run(() =>  GetVersionfromWeb().Wait());
+            Prepdata();    
         }
+
+        private void Prepdata()
+        {  //загружаем объекты в 2 этапа - подготавливаем массив и скармливаем его в колелцию, так быстрее
+            ObjectVM[] parameters =
+            {
+                new ObjectVM() { Link=Paths.url+ Paths.paths["CAD"], RelativePath = @"\T-FLEX CAD 17\T-FLEX CAD 17.msi" },
+                new ObjectVM() { Link=Paths.url+ Paths.paths["Standard"], RelativePath = @"\Стандартные элементы 17\Стандартные элементы 17.msi" },
+                new ObjectVM() { Link=Paths.url+ Paths.paths["MTools"], RelativePath = @"\Станочные приспособления 17\Станочные приспособления 17.msi" },
+                new ObjectVM() { Link=Paths.url+ Paths.paths["Examples"], RelativePath = @"\Примеры 17\Примеры 17.msi"},
+                new ObjectVM() { Link=Paths.url+ Paths.paths["Analysis"], RelativePath = @"\T-FLEX Анализ 17\T-FLEX Анализ 17.msi" },
+                new ObjectVM() { Link=Paths.url+ Paths.paths["Dynamics"], RelativePath = @"\T-FLEX Динамика 17\T-FLEX Динамика 17.msi" },
+                new ObjectVM() { Link=Paths.url+ Paths.paths["Gears"], RelativePath = @"\T-FLEX Зубчатые передачи 17\T-FLEX Зубчатые передачи 17.msi" },
+                new ObjectVM() { Link=Paths.url+ Paths.paths["License"], RelativePath = @"\T-FLEX Лицензирование 17\T-FLEX Лицензирование 17.msi" },
+                new ObjectVM() { Link=Paths.url+ Paths.paths["Electrical"], RelativePath = @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi" }
+            };
+            objectVMs = new ObservableCollection<ObjectVM>(parameters);
+        }
+
         private async Task GetVersionfromWeb()
         {
             // Xpatch //*[@id="page_maincontainer"]/div[2]/div[1]/div[1]/div[1]/text()
@@ -148,32 +149,23 @@ namespace WebDownloader.ViewModels
             WebVersion = "Версия на сайте: " + version;         
         }
         private void GetVersionfromFiles()
-        {
-            string path = Folder;
-            CAD.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX CAD 17\T-FLEX CAD 17.msi");
-            Standard.FileVersion = GetMSIVersion.Get(path + @"\Стандартные элементы 17\Стандартные элементы 17.msi");
-            MTools.FileVersion = GetMSIVersion.Get(path + @"\Станочные приспособления 17\Станочные приспособления 17.msi");
-            Examples.FileVersion = GetMSIVersion.Get(path + @"\Примеры 17\Примеры 17.msi");
-            Analysis.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Анализ 17\T-FLEX Анализ 17.msi");
-            Dynamics.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Динамика 17\T-FLEX Динамика 17.msi");
-            Gears.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Зубчатые передачи 17\T-FLEX Зубчатые передачи 17.msi");
-            License.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Лицензирование 17\T-FLEX Лицензирование 17.msi");
-            Electrical.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi");
+        {            
+            foreach (ObjectVM p in objectVMs)
+            { 
+                p.FileVersion= GetMSIVersion.Get(Folder + p.RelativePath);
+                if (WebVersion.Contains(p.FileVersion)) p.myColor = Brushes.Green;
+                else p.myColor = Brushes.Red;
+            }
         }
     }
-    internal class ObjectVM : INotifyPropertyChanged
+    internal class ObjectVM 
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
         #region версия  
         private string _FileVersion = "";
         public string FileVersion
         {
             get => _FileVersion;
-            set
-            { 
-                _FileVersion = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(FileVersion)));
-            }
+            set =>_FileVersion = value;
         }
         #endregion
         #region Относительный путь
@@ -181,25 +173,23 @@ namespace WebDownloader.ViewModels
         public string RelativePath
         {
             get => _RelativePath;
-            set 
-            {
-                _RelativePath = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(RelativePath)));
-            }
+            set => _RelativePath = value;
         }
-
-
         #endregion
-        #region Цвет  
+        #region  Путь для загрузки пакета
+        private string _Link = "";
+        public string Link
+        {
+            get => _Link;
+            set => _Link = value;
+        }
+        #endregion
+        #region Цвет текста на форме  
         SolidColorBrush _Color = Brushes.Black;
         public SolidColorBrush myColor
         {
             get => _Color;
-            set
-            {
-                _Color = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(myColor)));
-            }
+            set => _Color = value;
         }
         #endregion
     }

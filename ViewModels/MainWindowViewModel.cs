@@ -67,7 +67,7 @@ namespace WebDownloader.ViewModels
         #endregion
 
         #region версия CAD 
-        public ObjectVM CAD { get; set; } = new ObjectVM();
+        public ObjectVM CAD { get; set; } = new ObjectVM();        
         #endregion
 
         #region версия Standard Parts 
@@ -100,52 +100,35 @@ namespace WebDownloader.ViewModels
         #region Команда Назначить папку 
         //public ICommand PressCommand { get { return new DelegateCommand(Press); } }
         public ICommand SetFolderCommand { get { return new DelegateCommand(OnSetFolderCommand);} }        
-        private async void OnSetFolderCommand(object p)
+        private void OnSetFolderCommand(object p)
         {
             WinForm.FolderBrowserDialog dialog = new WinForm.FolderBrowserDialog();
             dialog.InitialDirectory = "D:\\Downloads";
             WinForm.DialogResult result = dialog.ShowDialog();
-            
+            //CAD.RelativePath = @"\T-FLEX CAD 17\T-FLEX CAD 17.msi";
             if (result == WinForm.DialogResult.OK)
             {
                 Folder = dialog.SelectedPath;                
             }
             
-            await GetVersionfromFiles();
-           /*
-            List<Label> labels = new List<Label>()
+            GetVersionfromFiles();
+
+           var labels=this.GetType().GetProperties().Where(x=> x.PropertyType.Name=="ObjectVM");
+
+            foreach (var label in labels)
             {
-                labelCAD,
-                labelStandard,
-                labelMTools,
-                labelExamples,
-                labelAnalysis,
-                labelDyna,
-                labelGears,
-                labelLicense,
-                labelElectrical
-            };
-            foreach (Label label in labels)
-            {
-                if (labelVersion.Content.ToString().Contains(label.Content.ToString())) label.Foreground = Brushes.Green;
-                else label.Foreground = Brushes.Red;
-            } */
+                //if (WebVersion.Contains(label.)) label.Foreground = Brushes.Green;
+                //else label.Foreground = Brushes.Red;
+            } 
         }
-        private bool CanSetFolderCommandExecute(object p) => true;
-        
         #endregion
         #endregion
         public MainWindowViewModel()
         {
             #region Команды 
-            
-            #endregion
-
-         //   ObjectVM CAD = new ObjectVM();
-
+            #endregion           
+       
             Task.Run(() =>  GetVersionfromWeb().Wait());          
-      
-            
         }
         private async Task GetVersionfromWeb()
         {
@@ -164,18 +147,18 @@ namespace WebDownloader.ViewModels
             version = Regex.Match(getVersion, pattern, options).Value;
             WebVersion = "Версия на сайте: " + version;         
         }
-        private async Task GetVersionfromFiles()
+        private void GetVersionfromFiles()
         {
             string path = Folder;
-            CAD.FileVersion = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX CAD 17\T-FLEX CAD 17.msi"));
-            Standard.FileVersion = await Task.Run(() => GetMSIVersion.Get(path + @"\Стандартные элементы 17\Стандартные элементы 17.msi"));
-            MTools.FileVersion = await Task.Run(() => GetMSIVersion.Get(path + @"\Станочные приспособления 17\Станочные приспособления 17.msi"));
-            Examples.FileVersion = await Task.Run(() => GetMSIVersion.Get(path + @"\Примеры 17\Примеры 17.msi"));
-            Analysis.FileVersion = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Анализ 17\T-FLEX Анализ 17.msi"));
-            Dynamics.FileVersion = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Динамика 17\T-FLEX Динамика 17.msi"));
-            Gears.FileVersion = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Зубчатые передачи 17\T-FLEX Зубчатые передачи 17.msi"));
-            License.FileVersion = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Лицензирование 17\T-FLEX Лицензирование 17.msi"));
-            Electrical.FileVersion = await Task.Run(() => GetMSIVersion.Get(path + @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi"));
+            CAD.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX CAD 17\T-FLEX CAD 17.msi");
+            Standard.FileVersion = GetMSIVersion.Get(path + @"\Стандартные элементы 17\Стандартные элементы 17.msi");
+            MTools.FileVersion = GetMSIVersion.Get(path + @"\Станочные приспособления 17\Станочные приспособления 17.msi");
+            Examples.FileVersion = GetMSIVersion.Get(path + @"\Примеры 17\Примеры 17.msi");
+            Analysis.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Анализ 17\T-FLEX Анализ 17.msi");
+            Dynamics.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Динамика 17\T-FLEX Динамика 17.msi");
+            Gears.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Зубчатые передачи 17\T-FLEX Зубчатые передачи 17.msi");
+            License.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Лицензирование 17\T-FLEX Лицензирование 17.msi");
+            Electrical.FileVersion = GetMSIVersion.Get(path + @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi");
         }
     }
     internal class ObjectVM : INotifyPropertyChanged
@@ -193,7 +176,21 @@ namespace WebDownloader.ViewModels
             }
         }
         #endregion
-        #region цвет  
+        #region Относительный путь
+        private string _RelativePath = "";
+        public string RelativePath
+        {
+            get => _RelativePath;
+            set 
+            {
+                _RelativePath = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(RelativePath)));
+            }
+        }
+
+
+        #endregion
+        #region Цвет  
         SolidColorBrush _Color = Brushes.Black;
         public SolidColorBrush myColor
         {

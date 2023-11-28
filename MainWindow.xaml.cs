@@ -54,11 +54,9 @@ namespace WebDownloader
                 if (labelVersion.Content.ToString().Contains(label.Content.ToString())) label.Foreground = Brushes.Green;
                 else label.Foreground = Brushes.Red;
             }
-
         }
         private void btnDownload_Click(object sender, RoutedEventArgs e)
         {
-
             Downloader.Start(this);
         }
 

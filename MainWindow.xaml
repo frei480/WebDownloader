@@ -8,7 +8,7 @@
         xmlns:vm ="clr-namespace:WebDownloader.ViewModels"
         mc:Ignorable="d"
         FontSize="16"
-        Title = "{Binding Title}" Height="350" Width="661" Padding="0,0,6,0" WindowStartupLocation="CenterScreen"      
+        Title = "{Binding Title}" Height="330" MinHeight="330" Width="661" MinWidth="600" Padding="0,0,6,0" WindowStartupLocation="CenterScreen"      
         >
     <Window.DataContext>
         <vm:MainWindowViewModel/>

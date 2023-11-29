@@ -10,11 +10,9 @@
         FontSize="16"
         Title = "{Binding Title}" Height="350" Width="898" Padding="0,0,6,0" WindowStartupLocation="CenterScreen"      
         >
-    
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -25,14 +23,6 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions >
             <RowDefinition Height="20"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -48,8 +38,7 @@
             <Button Grid.Column="0" x:Name="btnFolder" Content="Папка"  Command="{Binding SetFolderCommand}"  Width="50" HorizontalAlignment="Left" />
             <TextBox Grid.Column="1" x:Name="textBoxFolder"  TextWrapping="Wrap" Text="{Binding Folder}" />
         </Grid>
-       
-        <ItemsControl Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="9" ItemsSource="{Binding objectVMs}"  Margin="0,0,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ItemsControl Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"  ItemsSource="{Binding objectVMs}"  Margin="0,0,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ItemsControl.ItemTemplate >                
                 <DataTemplate>
                     <Grid Grid.Column="1" Grid.Row="1"  Grid.ColumnSpan="3">
@@ -65,17 +54,8 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Label Grid.Column="3" Grid.Row="2" x:Name="labelCAD" Content="{Binding CAD.FileVersion}" Foreground="{Binding CAD.myColor}" Margin="2" VerticalAlignment="Top" Padding="0,0,0,0" />
-        <Label Grid.Column="3" Grid.Row="3" x:Name="labelStandard" Content="{Binding Standard.FileVersion}" Margin="2" Padding="0,0,0,0"/>
-        <Label Grid.Column="3" Grid.Row="4" x:Name="labelMTools" Content="{Binding MTools.FileVersion}" Margin="2" Padding="0,0,0,0" />
-        <Label Grid.Column="3" Grid.Row="5" x:Name="labelExamples" Content="{Binding Examples.FileVersion}" Margin="2" Padding="0,0,0,0" />
-        <Label Grid.Column="3" Grid.Row="6" x:Name="labelAnalysis" Content="{Binding Analysis.FileVersion}" Margin="2" Padding="0,0,0,0" />
-        <Label Grid.Column="3" Grid.Row="7" x:Name="labelDyna" Content="{Binding Dynamics.FileVersion}" Margin="2" Padding="0,0,0,0"/>
-        <Label Grid.Column="3" Grid.Row="8" x:Name="labelGears" Content="{Binding Gears.FileVersion}" Margin="2" Padding="0,0,0,0"/>
-        <Label Grid.Column="3" Grid.Row="9" x:Name="labelLicense" Content="{Binding License.FileVersion}" Margin="2" Padding="0,0,0,0"/>
-        <Label Grid.Column="3" Grid.Row="10" x:Name="labelElectrical" Content="{Binding Electrical.FileVersion}" Margin="2" Padding="0,0,0,0"/>
-        <Label Grid.Column="1" Grid.Row="11" x:Name="labelVersion" Content="{Binding WebVersion}" Margin="2" VerticalAlignment="Top" Padding="0,0,0,0"    />
-        
+        <Label Grid.Column="1" Grid.Row="3" x:Name="labelVersion" Content="{Binding WebVersion}" Margin="2" VerticalAlignment="Top" Padding="0,0,0,0"    />
+
     </Grid>
  
 

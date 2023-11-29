@@ -15,7 +15,7 @@ namespace WebDownloader
         #region Реализация интерфейса INotifyPropertyChanged
         /// <summary> Реализация интерфейса INotifyPropertyChanged </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }

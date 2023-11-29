@@ -10,7 +10,7 @@ using Brushes = System.Windows.Media.Brushes;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
-
+using WebDownloader.Commands;
 
 namespace WebDownloader.ViewModels
 {
@@ -98,7 +98,16 @@ namespace WebDownloader.ViewModels
         }
         #endregion
         #region Команда Скачать
-        public ICommand DownloadCommand { get { return new DelegateCommand(OnDownloadCommand); } }
+        public ICommand DownloadCommand { get { return new DelegateCommand(OnDownloadCommand,EnableButton); } }
+
+        private bool EnableButton(object arg)
+        {
+            foreach(var obj in objectVMs)
+            {
+                if (obj.IsDownload && !String.IsNullOrWhiteSpace(Folder)) return true;
+            }
+            return false;
+        }
 
         private void OnDownloadCommand(object obj)
         {
@@ -188,31 +197,7 @@ namespace WebDownloader.ViewModels
             version = Regex.Match(getVersion, pattern, options).Value;
             WebVersion = "Версия на сайте: " + version;         
         }
-       
     }
  
-    public class DelegateCommand : ICommand
-    {
-        private Action<object> execute;
-        private Func<object, bool> canExceute;
-        event EventHandler? ICommand.CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-        public DelegateCommand(Action<object> execute, Func<object, bool> canExceute = null)
-        {
-            this.execute = execute;
-            this.canExceute = canExceute;
-        }
-        bool ICommand.CanExecute(object? parameter)
-        {
-            return this.canExceute == null || this.canExceute(parameter);
-        }
-
-        void ICommand.Execute(object? parameter)
-        {
-            this.execute(parameter);
-        }
-    }
+   
 }

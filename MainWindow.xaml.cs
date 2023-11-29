@@ -7,18 +7,14 @@ namespace WebDownloader
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string folder = "";
-        
         public MainWindow()
         {            
             InitializeComponent();
         }
 
-
         private void btnDownload_Click(object sender, RoutedEventArgs e)
         {
-            Downloader.Start(this);
+            //Downloader.Start(this);
         }
-
     }
 }

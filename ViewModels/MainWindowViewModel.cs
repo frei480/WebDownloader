@@ -10,31 +10,26 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WinForm = System.Windows.Forms;
-using WebDownloader.Commands;
-using WebDownloader.ViewModels.Base;
-using System.Windows.Controls;
-
-using System.Windows.Forms;
 using System.ComponentModel;
-
-using System.Windows.Media;
-using System.Drawing;
-using System.Diagnostics;
 using Brushes = System.Windows.Media.Brushes;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 
+
 namespace WebDownloader.ViewModels
 {
     internal class MainWindowViewModel: INotifyPropertyChanged
     {
+        #region Реализация интерфейса INotifyPropertyChanged
+        /// <summary> Реализация интерфейса INotifyPropertyChanged </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-        
+        #endregion
+
         #region Заголовок окна
         private string _Title = "Web Downloader";
         /// <summary> Заголовок окна </summary>
@@ -73,13 +68,17 @@ namespace WebDownloader.ViewModels
             }
         }
         #endregion
+
         #region Коллекция параметров 
         /// <summary> Коллекция параметров </summary>
         public ObservableCollection<ObjectVM> objectVMs { get; set; }
         #endregion
+
         #region Команды 
         #region Команда Назначить папку 
         //public ICommand PressCommand { get { return new DelegateCommand(Press); } }
+        
+        /// <summary> Назначаем папку для загрузки пакетов </summary>
         public ICommand SetFolderCommand { get { return new DelegateCommand(OnSetFolderCommand);} }        
         private void OnSetFolderCommand(object obj)
         {
@@ -90,19 +89,30 @@ namespace WebDownloader.ViewModels
             {
                 Folder = dialog.SelectedPath;                
             }
+            //Проверяем версии ранее загруженных пакетов
             foreach (ObjectVM p in objectVMs)
             {
+                p.Folder = Folder;
                 p.FileVersion = GetMSIVersion.Get(Folder + p.RelativePath);
                 if (WebVersion.Contains(p.FileVersion)) p.myColor = Brushes.Green;
                 else p.myColor = Brushes.Red;
             }
-            //GetVersionfromFiles();
-            //Коллекция не изменилась-нужно обновить
+            
+            //Поскольку коллекция не изменилась-нужно обновить
             CollectionViewSource.GetDefaultView(objectVMs).Refresh();
         }
         #endregion
         #region Команда Скачать
-        
+        public ICommand DownloadCommand { get { return new DelegateCommand(OnDownloadCommand); } }
+
+        private void OnDownloadCommand(object obj)
+        {
+            //Downloader.Start(objectVMs);
+            Parallel.ForEach<ObjectVM>(objectVMs.Where(pack => pack.IsDownload == true), (file) =>
+            {
+                file.DwnldFile();
+            });
+        }
         #endregion
         #endregion
         public MainWindowViewModel()
@@ -118,15 +128,50 @@ namespace WebDownloader.ViewModels
         {  //загружаем объекты в 2 этапа - подготавливаем массив и скармливаем его в колелцию, так быстрее
             ObjectVM[] parameters =
             {
-                new ObjectVM() { Link=Paths.url+ Paths.paths["CAD"], RelativePath = @"\T-FLEX CAD 17\T-FLEX CAD 17.msi" },
-                new ObjectVM() { Link=Paths.url+ Paths.paths["Standard"], RelativePath = @"\Стандартные элементы 17\Стандартные элементы 17.msi" },
-                new ObjectVM() { Link=Paths.url+ Paths.paths["MTools"], RelativePath = @"\Станочные приспособления 17\Станочные приспособления 17.msi" },
-                new ObjectVM() { Link=Paths.url+ Paths.paths["Examples"], RelativePath = @"\Примеры 17\Примеры 17.msi"},
-                new ObjectVM() { Link=Paths.url+ Paths.paths["Analysis"], RelativePath = @"\T-FLEX Анализ 17\T-FLEX Анализ 17.msi" },
-                new ObjectVM() { Link=Paths.url+ Paths.paths["Dynamics"], RelativePath = @"\T-FLEX Динамика 17\T-FLEX Динамика 17.msi" },
-                new ObjectVM() { Link=Paths.url+ Paths.paths["Gears"], RelativePath = @"\T-FLEX Зубчатые передачи 17\T-FLEX Зубчатые передачи 17.msi" },
-                new ObjectVM() { Link=Paths.url+ Paths.paths["License"], RelativePath = @"\T-FLEX Лицензирование 17\T-FLEX Лицензирование 17.msi" },
-                new ObjectVM() { Link=Paths.url+ Paths.paths["Electrical"], RelativePath = @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi" }
+                new ObjectVM() { Name="T-FLEX CAD",
+                                 Filename= Paths.paths["CAD"], 
+                                 RelativePath = @"\T-FLEX CAD 17\T-FLEX CAD 17.msi",
+                                 Folder = Folder + @"\T-FLEX CAD 17\" },
+
+                new ObjectVM() { Name="Стандартные элементы 17", 
+                                 Filename= Paths.paths["Standard"], 
+                                 RelativePath = @"\Стандартные элементы 17\Стандартные элементы 17.msi",
+                                 Folder = Folder},
+                
+                new ObjectVM() { Name ="Станочные приспособления 17", 
+                                 Filename= Paths.paths["MTools"],
+                                 RelativePath = @"\Станочные приспособления 17\Станочные приспособления 17.msi",
+                                 Folder = Folder},
+                
+                new ObjectVM() { Name ="Примеры 17", 
+                                 Filename= Paths.paths["Examples"],
+                                 RelativePath = @"\Примеры 17\Примеры 17.msi",
+                                 Folder = Folder},
+
+                new ObjectVM() { Name ="T-FLEX Анализ 17", 
+                                 Filename=Paths.paths["Analysis"], 
+                                 RelativePath = @"\T-FLEX Анализ 17\T-FLEX Анализ 17.msi",
+                                 Folder = Folder},
+
+                new ObjectVM() { Name ="T-FLEX Динамика 17", 
+                                 Filename= Paths.paths["Dynamics"], 
+                                 RelativePath = @"\T-FLEX Динамика 17\T-FLEX Динамика 17.msi",
+                                 Folder = Folder},
+
+                new ObjectVM() { Name ="T-FLEX Зубчатые передачи 17", 
+                                 Filename= Paths.paths["Gears"], 
+                                 RelativePath = @"\T-FLEX Зубчатые передачи 17\T-FLEX Зубчатые передачи 17.msi",
+                                 Folder = Folder},
+
+                new ObjectVM() { Name ="T-FLEX Лицензирование 17", 
+                                 Filename= Paths.paths["License"], 
+                                 RelativePath = @"\T-FLEX Лицензирование 17\T-FLEX Лицензирование 17.msi",
+                                 Folder = Folder},
+
+                new ObjectVM() { Name ="T-FLEX Электротехника 17", 
+                                 Filename= Paths.paths["Electrical"], 
+                                 RelativePath = @"\T-FLEX Электротехника 17\T-FLEX Электротехника 17.msi",
+                                 Folder = Folder}
             };
             objectVMs = new ObservableCollection<ObjectVM>(parameters);
         }
@@ -148,51 +193,9 @@ namespace WebDownloader.ViewModels
             version = Regex.Match(getVersion, pattern, options).Value;
             WebVersion = "Версия на сайте: " + version;         
         }
-        private void GetVersionfromFiles()
-        {            
-            foreach (ObjectVM p in objectVMs)
-            { 
-                p.FileVersion= GetMSIVersion.Get(Folder + p.RelativePath);
-                if (WebVersion.Contains(p.FileVersion)) p.myColor = Brushes.Green;
-                else p.myColor = Brushes.Red;
-            }
-        }
+       
     }
-    internal class ObjectVM 
-    {
-        #region версия  
-        private string _FileVersion = "";
-        public string FileVersion
-        {
-            get => _FileVersion;
-            set =>_FileVersion = value;
-        }
-        #endregion
-        #region Относительный путь
-        private string _RelativePath = "";
-        public string RelativePath
-        {
-            get => _RelativePath;
-            set => _RelativePath = value;
-        }
-        #endregion
-        #region  Путь для загрузки пакета
-        private string _Link = "";
-        public string Link
-        {
-            get => _Link;
-            set => _Link = value;
-        }
-        #endregion
-        #region Цвет текста на форме  
-        SolidColorBrush _Color = Brushes.Black;
-        public SolidColorBrush myColor
-        {
-            get => _Color;
-            set => _Color = value;
-        }
-        #endregion
-    }
+ 
     public class DelegateCommand : ICommand
     {
         private Action<object> execute;

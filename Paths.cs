@@ -4,7 +4,12 @@ namespace WebDownloader
 {
     internal static class Paths
     {
+        /// <summary>
+        /// Страница загрузки
+        /// </summary>
         public static string url = "https://www.tflex.ru/downloads/";
+        
+        /// <summary> URL адрес пакета </summary>
         public static Dictionary<string, string> paths = new Dictionary<string, string>()
         {
             { "CAD",   @"T-FLEX%20CAD%2017.msi" },

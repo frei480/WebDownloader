@@ -20,14 +20,12 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
-        </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>
         <Grid.RowDefinitions >
             <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>     
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Button Grid.Column="1" Grid.Row="1" Content="Скачать" HorizontalAlignment="Left" Width="81" Command="{Binding DownloadCommand}" FontSize="16"/>
         <Grid Grid.Column="2" Grid.Row="1"  Grid.ColumnSpan="2">
@@ -38,25 +36,34 @@
             <Button Grid.Column="0" Content="Папка"  Command="{Binding SetFolderCommand}"  Width="50" HorizontalAlignment="Left" />
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding Folder}" />
         </Grid>
-        <ItemsControl Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"  ItemsSource="{Binding objectVMs}"  Margin="0,0,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl.ItemTemplate >                
-                <DataTemplate>
-                    <Grid Grid.Column="1" Grid.Row="1"  Grid.ColumnSpan="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="260"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <CheckBox Grid.Column="0" Content="{Binding Name}" IsChecked="{Binding Path=IsDownload}"/>
-                        <ProgressBar Grid.Column="1" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}"  Margin="2" />
-                        <TextBlock Grid.Column="2" Margin="0,0,0,3" Text="{Binding Path=FileVersion}" Foreground="{Binding Path=myColor}"/>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <Label Grid.Column="1" Grid.Row="3" x:Name="labelVersion" Content="{Binding WebVersion}" Margin="2" VerticalAlignment="Top" Padding="0,0,0,0"    />
-
+        <ScrollViewer Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="3" VerticalScrollBarVisibility="Visible" >
+            <ItemsControl Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"  ItemsSource="{Binding FromWeb.Result}"  Margin="0,0,0,0" >
+                <ItemsControl.ItemTemplate >
+                    <DataTemplate>
+                        <Grid Grid.Column="1" Grid.Row="1"  Grid.ColumnSpan="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="260" Width="auto"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" Content="{Binding Name}" IsChecked="{Binding Path=IsDownload}"/>
+                            <ProgressBar Grid.Column="1" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}"  Margin="2" />
+                            <TextBlock Grid.Column="2" Margin="0,0,0,3" Text="{Binding Path=FileVersion}" Foreground="{Binding Path=myColor}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
+        <!--<Label Grid.Column="1" Grid.Row="3" x:Name="labelVersion" Content="{Binding WebVersion}" Margin="2" VerticalAlignment="Top" Padding="0,0,0,0"    />-->
+        <StatusBar Grid.Row="5" Grid.ColumnSpan="5" VerticalAlignment="Bottom">
+            <StatusBarItem>
+                <Label Content="{Binding WebVersion}" Margin="2" VerticalAlignment="Top" Padding="0,0,0,0"    />
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
- 
+
+
+  
 
 </Window>

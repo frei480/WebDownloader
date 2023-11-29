@@ -11,6 +11,10 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using WebDownloader.Commands;
+using static System.Windows.Forms.LinkLabel;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Documents;
 
 namespace WebDownloader.ViewModels
 {
@@ -67,12 +71,14 @@ namespace WebDownloader.ViewModels
         #region Коллекция параметров 
         /// <summary> Коллекция параметров </summary>
         public ObservableCollection<ObjectVM> objectVMs { get; set; }
+        public NotifyTaskCompletion<List<ObjectVM>> FromWeb {  get; set; }
+
         #endregion
 
         #region Команды 
         #region Команда Назначить папку 
         //public ICommand PressCommand { get { return new DelegateCommand(Press); } }
-        
+
         /// <summary> Назначаем папку для загрузки пакетов </summary>
         public ICommand SetFolderCommand { get { return new DelegateCommand(OnSetFolderCommand);} }        
         private void OnSetFolderCommand(object obj)
@@ -102,6 +108,7 @@ namespace WebDownloader.ViewModels
 
         private bool EnableButton(object arg)
         {
+            if (objectVMs == null) return false;
             foreach(var obj in objectVMs)
             {
                 if (obj.IsDownload && !String.IsNullOrWhiteSpace(Folder)) return true;
@@ -125,7 +132,47 @@ namespace WebDownloader.ViewModels
             #endregion           
             //Загружаем значение актуальной сборки с сайта
             Task.Run(() =>  GetVersionfromWeb().Wait());
-            Prepdata();    
+            Prepdata();
+            FromWeb = new NotifyTaskCompletion<List<ObjectVM>>(PrepDataFromWeb());
+           
+
+
+        }
+
+        private async Task<List<ObjectVM>> PrepDataFromWeb()
+        {
+
+            string url = "https://www.tflex.ru/downloads/";
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);//
+
+            HtmlNodeCollection getLinks = await Task.Run(() =>
+            {
+                var web = new HtmlAgilityPack.HtmlWeb();
+                HtmlDocument doc = web.Load(url);
+                return doc.DocumentNode.SelectNodes("//a[@class='basic_link']");
+            });
+            //отсекаем pdf
+            var selectedLinks = from link in getLinks
+                                where !link.GetAttributeValue("href", "").Contains(".pdf")
+                                select link;
+
+            List<ObjectVM> Links = new List<ObjectVM>();
+
+            foreach (HtmlNode item in selectedLinks)
+            {
+                byte[] bytes = Encoding.Default.GetBytes(item.InnerText);
+                string str = Encoding.UTF8.GetString(bytes);
+                ObjectVM file = new()
+                {
+                    Name = str,
+                    Filename = item.GetAttributeValue("href", ""),
+                    RelativePath = "",
+                    Folder = ""
+                };
+                Links.Add(file);
+                
+            }
+            return Links;
         }
 
         private void Prepdata()

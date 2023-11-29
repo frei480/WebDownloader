@@ -1,13 +1,8 @@
 ﻿using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using WinForm = System.Windows.Forms;
 using System.ComponentModel;
@@ -183,8 +178,8 @@ namespace WebDownloader.ViewModels
             string url = "https://www.tflex.ru/downloads/";
             string getVersion = await Task.Run(() =>
             {
-                var web = new HtmlAgilityPack.HtmlWeb();
-                HtmlAgilityPack.HtmlDocument doc = web.Load(url);
+                var web = new HtmlWeb();
+                HtmlDocument doc = web.Load(url);
                 return doc.DocumentNode.SelectNodes("//*[@id=\"page_maincontainer\"]/div[2]/div[1]/div[1]/div[1]")[0].InnerText;
             });
             string pattern = @"[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+";

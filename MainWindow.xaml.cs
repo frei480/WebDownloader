@@ -11,10 +11,5 @@ namespace WebDownloader
         {            
             InitializeComponent();
         }
-
-        private void btnDownload_Click(object sender, RoutedEventArgs e)
-        {
-            //Downloader.Start(this);
-        }
     }
 }

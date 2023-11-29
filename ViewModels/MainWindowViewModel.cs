@@ -98,7 +98,7 @@ namespace WebDownloader.ViewModels
         }
         #endregion
         #region Команда Скачать
-        public ICommand DownloadCommand { get { return new DelegateCommand(OnDownloadCommand,EnableButton); } }
+        public ICommand DownloadCommand { get { return new DelegateCommand(OnDownloadCommand, EnableButton); } }
 
         private bool EnableButton(object arg)
         {

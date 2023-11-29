@@ -8,7 +8,7 @@
         xmlns:vm ="clr-namespace:WebDownloader.ViewModels"
         mc:Ignorable="d"
         FontSize="16"
-        Title = "{Binding Title}" Height="350" Width="898" Padding="0,0,6,0" WindowStartupLocation="CenterScreen"      
+        Title = "{Binding Title}" Height="350" Width="661" Padding="0,0,6,0" WindowStartupLocation="CenterScreen"      
         >
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -16,7 +16,7 @@
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="260"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
@@ -29,14 +29,14 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Button Grid.Column="1" Grid.Row="1" x:Name="btnDownload" Content="Скачать" HorizontalAlignment="Left" Width="81" Command="{Binding DownloadCommand}" FontSize="16"/>
+        <Button Grid.Column="1" Grid.Row="1" Content="Скачать" HorizontalAlignment="Left" Width="81" Command="{Binding DownloadCommand}" FontSize="16"/>
         <Grid Grid.Column="2" Grid.Row="1"  Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="btnFolder" Content="Папка"  Command="{Binding SetFolderCommand}"  Width="50" HorizontalAlignment="Left" />
-            <TextBox Grid.Column="1" x:Name="textBoxFolder"  TextWrapping="Wrap" Text="{Binding Folder}" />
+            <Button Grid.Column="0" Content="Папка"  Command="{Binding SetFolderCommand}"  Width="50" HorizontalAlignment="Left" />
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding Folder}" />
         </Grid>
         <ItemsControl Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"  ItemsSource="{Binding objectVMs}"  Margin="0,0,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ItemsControl.ItemTemplate >                
